@@ -1,11 +1,15 @@
 import './App.css';
-import { Form, Button, Checkbox, DatePicker, Input, Select, Space } from 'antd';
+import { Form, Button, Input } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
           autoComplete="off"
           labelCol={{ span: 10 }}
           wrapperCol={{ span: 14 }}
@@ -18,18 +22,18 @@ function App() {
         >
           <Form.Item
             name="fullName"
-            label="Full Name"
+            label="Nome completo"
             rules={[
               {
                 required: true,
-                message: 'Please enter your name',
+                message: 'Por favor coloque seu nome completo',
               },
               { whitespace: true },
               { min: 3 },
             ]}
             hasFeedback
           >
-            <Input placeholder="Type your name" />
+            <Input placeholder="Digite seu nome" />
           </Form.Item>
 
           <Form.Item
@@ -37,119 +41,55 @@ function App() {
             label="Email"
             rules={[
               {
-                required: true,
-                message: 'Please enter your email',
+                message: 'Por favor escreva seu e-mail',
               },
-              { type: 'email', message: 'Please enter a valid email' },
+              { type: 'email', message: 'Email inválido' },
             ]}
             hasFeedback
           >
-            <Input placeholder="Type your email" />
+            <Input placeholder="Digite seu e-mail" />
           </Form.Item>
 
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[
-              {
-                required: true,
-              },
-              { min: 6 },
-              {
-                validator: (_, value) =>
-                  value && value.includes('A')
-                    ? Promise.resolve()
-                    : Promise.reject('Password does not match criteria.'),
-              },
-            ]}
-            hasFeedback
-          >
-            <Input.Password placeholder="Type your password" />
-          </Form.Item>
-
-          <Form.Item
-            name="confirmPassword"
-            label="Confirm Password"
-            dependencies={['password']}
-            rules={[
-              {
-                required: true,
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(
-                    'The two passwords that you entered does not match.',
-                  );
-                },
-              }),
-            ]}
-            hasFeedback
-          >
-            <Input.Password placeholder="Confirm your password" />
-          </Form.Item>
-
-          <Form.Item name="gender" label="Gender" requiredMark="optional">
-            <Select placeholder="Select your gender">
-              <Select.Option value="male">Male</Select.Option>
-              <Select.Option value="female">Female</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="dob"
-            label="Date of Birth"
-            rules={[
-              {
-                required: true,
-                message: 'Please provide your date of birth',
-              },
-            ]}
-            hasFeedback
-          >
-            <DatePicker
-              style={{ width: '100%' }}
-              picker="date"
-              placeholder="Chose date of birth"
-            />
+          <Form.Item name="age" label="Idade">
+            <Input placeholder="Digite sua idade" />
           </Form.Item>
 
           <Form.Item
             name="website"
             label="Website"
-            rules={[{ type: 'url', message: 'Please enter a valid url' }]}
+            rules={[
+              { type: 'url', message: 'Por favor digite uma url válida' },
+            ]}
             hasFeedback
           >
-            <Input placeholder="Add your website url" />
+            <Input placeholder="Digite seu website" />
           </Form.Item>
-
-          <Form.Item
-            name="agreement"
-            wrapperCol={{ span: 24 }}
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject(
-                        'To proceed, you need to agree with our terms and conditions',
-                      ),
-              },
-            ]}
-          >
-            <Checkbox>
-              {' '}
-              Agree to our <a href="#">Terms and Conditions</a>
-            </Checkbox>
+          <Form.Item name={['user', 'introduction']} label="Introdução">
+            <Input.TextArea />
           </Form.Item>
-
-          <Form.Item wrapperCol={{ span: 24 }}>
+          <Form.Item wrapperCol={{ offset: 8 }}>
             <Button block type="primary" htmlType="submit">
-              Register
+              Submit
             </Button>
+          </Form.Item>
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: 'Please input your Username!' }]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Username"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: 'Please input your Password!' }]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
           </Form.Item>
         </Form>
       </header>
